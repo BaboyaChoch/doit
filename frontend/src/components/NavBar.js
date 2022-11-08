@@ -45,13 +45,13 @@ export function NavBar() {
       borderBottom: '.5px solid #C1C1C1C1'
     }}>
           <Grid container>
-            <Grid xs={3} />
+            <Grid item xs={3}/>
             <Grid item container xs={6} sx={{height: '5vh'}}>
               <Grid item container xs={4}>
-                <Grid item sx={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
-                  <AdbIcon sx={{ display: { color:'red' }, mr: 1 }} />
+                <Grid item sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <AdbIcon sx={{display: {color: 'red'}, mr: 1}}/>
                 </Grid>
-                <Grid item sx={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
+                <Grid item sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <Typography
                     variant="h6"
                     noWrap
@@ -108,7 +108,7 @@ export function NavBar() {
                 </Box>
               </Grid>
             </Grid>
-            <Grid xs={3} />
+            <Grid item xs={3}/>
           </Grid>
     </Box>
   );
