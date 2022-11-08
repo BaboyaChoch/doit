@@ -23,9 +23,20 @@ const config = {
     'to_do': {
       'board_id': 'to_do',
       'board_title': 'To Do',
+      'board_tasks': ['t2', 't3']
+    },
+    'in_progress': {
+      'board_id': 'in_progress',
+      'board_title': 'In Progress',
+      'board_tasks': ['t1']
+    },
+    'done': {
+      'board_id': 'done',
+      'board_title': 'Done',
+      'board_tasks': []
     }
   },
-  boardOrder: ['to_do']
+  boardOrder: ['to_do', 'in_progress', 'done']
 }
 
 export default config

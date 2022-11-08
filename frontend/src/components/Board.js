@@ -3,8 +3,6 @@ import {makeStyles} from "@mui/styles";
 import {Box, Card, Grid, Typography} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import * as React from "react";
-import {Colors} from "../styles/colors";
-import config from "../lib/config";
 import Task from "./Task";
 import {Droppable} from "react-beautiful-dnd";
 
@@ -17,42 +15,68 @@ const useStyles = makeStyles({
 
   },
   boardActions: {
-    borderBottom: '1px solid grey',
+    borderBottom: '1px solid lightgrey',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100%'
-  },
-  tasks :{
+    width: '100%',
     border: '1px solid red'
   },
+  tasksList: {
+    height: '100%',
+    minHeight: '100px',
+    flexGrow: 1
+  },
   taskItem: {
-    backgroundColor:'grey',
-    margin:'5px 5px 0px 5px'
+    backgroundColor: 'grey',
+    margin: '5px 5px 0px 5px'
   }
 })
 
-export default function Board({title, tasks, boardId}) {
-  console.log(tasks)
+
+const BOARD_CONFIG = {
+  'to_do': {
+    color: '#fce5e5'
+  },
+  'in_progress': {
+    color: '#fcfae5'
+  },
+  'done': {
+    color: '#ebfce5'
+  }
+}
+export default function Board({data, tasks}) {
+
   const classes = useStyles()
   return (
     <Paper elevation={4} className={classes.root} sx={{backgroundColor: 'white'}}>
       <Grid container direction='column' sx={{height: '100%'}}>
-        <Grid item container xs={.75} className={classes.boardActions}>
-          <Typography variant='h6'>{title}</Typography>
-        </Grid>
-        <Grid item container xs={11.25} className={classes.tasks} direction='column'>
-          <Droppable droppableId={boardId}>
-            {provided => (
+        <Grid item container xs={12} className={classes.tasks} direction='column'>
+          <Droppable droppableId={data.board_id}>
+            {(provided, snapshot) => (
               <Box
+                className={classes.tasksList}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                sx={{backgroundColor: snapshot.isDraggingOver ? `${BOARD_CONFIG[data.board_id].color}` : ''}}
               >
+                <Box
+                  className={classes.boardActions}
+                >
+                  <Typography
+                    variant='h6'
+                    sx={{color: '#696969', marginLeft: .5, border: '1px solid blue'}}
+                  >{data.board_title}
+                  </Typography>
+                  <AddIcon
+                    sx={{border: '1px solid green'}}
+                    onClick={() => console.log(`ADD HAS BEEN CLICKED FOR ${data.board_title}!!`)}
+                  />
+                </Box>
                 {tasks.map((task, index) => (
                   <Task
-                    key={task[1].task_id}
-                    taskId={task[1].task_id}
-                    content={task[1].task_content}
+                    key={task.task_id}
+                    data={task}
                     taskIndex={index}
                   />))}
                 {provided.placeholder}

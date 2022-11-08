@@ -1,34 +1,40 @@
-import Paper from "@mui/material/Paper";
 import {makeStyles} from "@mui/styles";
-import {Box, Card, CardContent, Grid, Typography} from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import {
+  Card,
+  CardContent,
+  Typography
+} from "@mui/material";
 import * as React from "react";
-import {Colors} from "../styles/colors";
-import config from "../lib/config";
 import {Draggable} from "react-beautiful-dnd";
 
 const useStyles = makeStyles({
   root: {
-    border: '1px solid lightgrey',
+    margin: 8
   },
-  content: {}
+  content: {
+    backgroundColor: "#FCF5E5",
+    border: '1px solid lightgrey'
+  }
 })
 
-export default function Task({taskId, content, taskIndex}) {
-  console.log(taskId, taskIndex)
+export default function Task({data, taskIndex}) {
+
   const classes = useStyles()
   return (
-    <Draggable draggableId={taskId} index={taskIndex}>
-      {provided => (
+    <Draggable key={data.task_id} draggableId={data.task_id} index={taskIndex}>
+      {(provided, snapshot) => (
         <Card
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={classes.root}
         >
-          <CardContent className={classes.content}>
+          <CardContent
+            className={classes.content}
+            sx={{backgroundColor: snapshot.isDragging ? '#e5fce5' : '#FCF5E5'}}
+          >
             <Typography sx={{fontSize: 15}}>
-              {content}
+              {data.task_content}
             </Typography>
           </CardContent>
         </Card>
