@@ -5,7 +5,7 @@ import com.baboya.tasks.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/tasks")
@@ -19,27 +19,27 @@ public class TaskController {
   }
 
   @RequestMapping(value = "/getAllTasks")
-  public List<Task> getAllTasks() {
+  public Iterable<Task> getAllTasks() {
     return taskService.getAllTasks();
   }
 
   @RequestMapping(value = "/getTask/taskId={id}")
-  public Task getTask(@PathVariable int id){
+  public Optional<Task> getTask(@PathVariable String id){
     return taskService.getTask(id);
   }
 
   @RequestMapping(method=RequestMethod.POST, value = "/addTask")
-  public int addTask(@RequestBody Task task) {
+  public String addTask(@RequestBody Task task) {
     return taskService.addTask(task);
   }
 
   @RequestMapping(method=RequestMethod.PUT, value = "/updateTask/taskId={id}")
-  public void updateTask(@PathVariable int id, @RequestBody Task task) {
-    taskService.updateTask(id, task);
+  public Task updateTask(@PathVariable String id, @RequestBody Task task) {
+    return taskService.updateTask(id, task);
   }
 
   @RequestMapping(method=RequestMethod.DELETE, value = "/deleteTask/taskId={id}")
-  public boolean deleteTask(@PathVariable int id) {
+  public boolean deleteTask(@PathVariable String id) {
     return taskService.deleteTask(id);
   }
 }

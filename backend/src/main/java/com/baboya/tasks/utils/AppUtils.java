@@ -1,7 +1,7 @@
 package com.baboya.tasks.utils;
 
 public class AppUtils {
-  public static class Status {
+  public static class TaskStatusOptions {
     ; // no instances
     public static String TO_DO = "to_do";
     public static String IN_PROGRESS = "in_progress";

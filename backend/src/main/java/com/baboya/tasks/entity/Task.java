@@ -1,38 +1,42 @@
 package com.baboya.tasks.entity;
 
-import com.baboya.tasks.utils.AppUtils.Status;
+import org.hibernate.annotations.GenericGenerator;
 
-/*
-*
-* CREATE TABLE task(
-    task_id varchar(200),
-    task_content varchar(500),
-    date_created datetime,
-    task_status varchar(11),
-    primary key (task_id)
-);
-* */
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity(name = "task")
 public class Task {
-  private int taskId;
+
+  @Id
+  @GeneratedValue(generator="system-uuid")
+  @GenericGenerator(name="system-uuid", strategy = "uuid")
+  @Column(name= "task_id", nullable = false)
+  private String taskId;
+
+  @Column(name = "task_content", nullable = false, length = 500)
   private String taskContent;
-  private String dateCreated;
+
+  @Column(name = "task_last_updated_on", nullable = false)
+  private LocalDateTime taskLastUpdatedOn;
+
+  @Column(name = "task_status", nullable = false, length = 11)
   private String taskStatus;
 
-  public Task(int taskId, String taskContent, String dateCreated, String taskStatus) {
-    this.taskId = taskId;
+  public Task() {}
+
+  public Task(String taskContent,String taskStatus) {
     this.taskContent = taskContent;
-    this.dateCreated = dateCreated;
     this.taskStatus = taskStatus;
+    this.taskLastUpdatedOn = LocalDateTime.now();
   }
 
-  public int getTaskId() {
-    return this.taskId;
+  public String getTaskId() {
+    return taskId;
   }
 
-
-  public void setTaskId(int taskId) {
-    this.taskId = taskId;
+  public void setTaskId(String newId){
+    this.taskId = newId;
   }
 
   public String getTaskContent() {
@@ -43,12 +47,12 @@ public class Task {
     this.taskContent = taskContent;
   }
 
-  public String getDateCreated() {
-    return this.dateCreated;
+  public String getTaskLastUpdatedOn() {
+    return this.taskLastUpdatedOn.toString();
   }
 
-  public void setDateCreated(String dateCreated) {
-    this.dateCreated = dateCreated;
+  public void setTaskLastUpdatedOn(LocalDateTime dateCreated) {
+    this.taskLastUpdatedOn = dateCreated;
   }
 
   public String getTaskStatus() {
@@ -57,5 +61,15 @@ public class Task {
 
   public void setTaskStatus(String taskStatus) {
     this.taskStatus = taskStatus;
+  }
+
+  @Override
+  public String toString() {
+    return "Task{" +
+        "id=" + taskId +
+        ", taskContent=" + taskContent +
+        ", dataCreated=" + taskLastUpdatedOn.toString() +
+        ", taskStatus="  + taskStatus +
+        "}";
   }
 }
