@@ -1,5 +1,6 @@
 package com.baboya.tasks.service;
 
+import com.baboya.tasks.GenericApiResponse;
 import com.baboya.tasks.entity.User;
 import com.baboya.tasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class UserService {
     return  "healthy";
   }
 
-  public User addUser(User user) {
+  public GenericApiResponse addUser(User user) {
     User newUser = new User(
         user.getUsername(),
         user.getEmail(),
@@ -24,10 +25,10 @@ public class UserService {
         user.getLastName()
     );
     userRepository.save(newUser);
-    return newUser;
+    return new GenericApiResponse(newUser);
   }
 
-  public Optional<User> getUser(String id) {
-    return userRepository.findById(id);
+  public GenericApiResponse getUser(String id) {
+    return new GenericApiResponse(userRepository.findById(id));
   }
 }

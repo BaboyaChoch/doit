@@ -65,7 +65,7 @@ export default function Home() {
 
   const updateTaskStatus = (taskId, newStatus) => {
     console.log("GET", CONFIG.tasks[taskId])
-    CONFIG.tasks[taskId].task_status = newStatus
+    CONFIG.tasks[taskId].taskStatus = newStatus
     console.log("POST", CONFIG.tasks[taskId])
   }
   const updateTaskListState = (boardId, newOrder) => {

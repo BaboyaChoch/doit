@@ -1,11 +1,10 @@
 package com.baboya.tasks.controller;
 
+import com.baboya.tasks.GenericApiResponse;
 import com.baboya.tasks.entity.Task;
 import com.baboya.tasks.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/tasks")
@@ -13,33 +12,34 @@ public class TaskController {
   @Autowired
   private TaskService taskService;
 
-  @RequestMapping(value ="/ping")
+  @RequestMapping(method = RequestMethod.GET, value ="/ping")
   public String healthCheck (){
     return taskService.pingTaskService();
   }
 
-  @RequestMapping(value = "/getAllTasks")
-  public Iterable<Task> getAllTasks() {
-    return taskService.getAllTasks();
+  @RequestMapping(method = RequestMethod.GET, value = "/getAllTasks/userId={id}")
+  public GenericApiResponse getAllTasks(@PathVariable String id) {
+    return taskService.getAllTasks(id);
   }
 
-  @RequestMapping(value = "/getTask/taskId={id}")
-  public Optional<Task> getTask(@PathVariable String id){
-    return taskService.getTask(id);
+  @RequestMapping(method = RequestMethod.GET, value = "/getTask/userId={userId}/taskId={taskId}")
+  public GenericApiResponse getTask(@PathVariable String userId, @PathVariable String taskId){
+    return taskService.getTask(taskId, userId);
   }
 
   @RequestMapping(method=RequestMethod.POST, value = "/addTask")
-  public String addTask(@RequestBody Task task) {
+  public GenericApiResponse addTask(@RequestBody Task task) {
     return taskService.addTask(task);
   }
 
   @RequestMapping(method=RequestMethod.PUT, value = "/updateTask/taskId={id}")
-  public Task updateTask(@PathVariable String id, @RequestBody Task task) {
+  public GenericApiResponse updateTask(@PathVariable String id, @RequestBody Task task) {
     return taskService.updateTask(id, task);
   }
 
-  @RequestMapping(method=RequestMethod.DELETE, value = "/deleteTask/taskId={id}")
-  public boolean deleteTask(@PathVariable String id) {
-    return taskService.deleteTask(id);
+  @RequestMapping
+      (method=RequestMethod.DELETE, value = "/deleteTask/userId={userId}/taskId={taskId}")
+  public GenericApiResponse deleteTask(@PathVariable String taskId, @PathVariable String userId) {
+    return taskService.deleteTask(taskId, userId);
   }
 }

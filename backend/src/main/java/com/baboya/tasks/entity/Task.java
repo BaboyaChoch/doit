@@ -23,11 +23,15 @@ public class Task {
   @Column(name = "task_status", nullable = false, length = 11)
   private String taskStatus;
 
+  @Column(name = "user_id", nullable = false, length = 32)
+  private String userId;
+
   public Task() {}
 
-  public Task(String taskContent,String taskStatus) {
+  public Task(String taskContent, String taskStatus, String userId) {
     this.taskContent = taskContent;
     this.taskStatus = taskStatus;
+    this.userId = userId;
     this.taskLastUpdatedOn = LocalDateTime.now();
   }
 
@@ -63,6 +67,14 @@ public class Task {
     this.taskStatus = taskStatus;
   }
 
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
   @Override
   public String toString() {
     return "Task{" +
@@ -70,6 +82,7 @@ public class Task {
         ", taskContent=" + taskContent +
         ", dataCreated=" + taskLastUpdatedOn.toString() +
         ", taskStatus="  + taskStatus +
+        ", userId="  + userId +
         "}";
   }
 }

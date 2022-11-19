@@ -1,22 +1,26 @@
 const config = {
   tasks: {
     't1': {
-      task_id: 't1',
-      task_content: 'this is the first task in my dnd app',
-      task_date_created: '11/07/2022 17:12:12',
-      task_status: 'in_progress'
+      taskId: 't1',
+      taskContent: 'this is the first task in my dnd app',
+      taskLastUpdatedOn: '11/07/2022 17:12:12',
+      taskStatus: 'in_progress',
+      userId: "9773bc40-0d4b-4bdb-8af8-c0e7df6f"
     },
     't2': {
-      task_id: 't2',
-      task_content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  tempor incididunt ut labore et dolore magna aliqua. Id donec ultrices tincidunt arcu.',
-      task_date_created: '11/07/2022 17:123:32',
-      task_status: 'to_do'
+      taskId: 't2',
+      taskContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  tempor' +
+        ' incididunt ut labore et dolore magna aliqua. Id donec ultrices tincidunt arcu.',
+      taskLastUpdatedOn: '11/07/2022 17:123:32',
+      taskStatus: 'to_do',
+      userId: "9773bc40-0d4b-4bdb-8af8-c0e7df6f"
     },
     't3': {
-      task_id: 't3',
-      task_content: 'her loss is fire',
-      task_date_created: '11/05/2022 21:52:17',
-      task_status: 'to_do'
+      taskId: 't3',
+      taskContent: 'her loss is fire',
+      taskLastUpdatedOn: '11/05/2022 21:52:17',
+      taskStatus: 'to_do',
+      userId: "9773bc40-0d4b-4bdb-8af8-c0e7df6f"
     }
   },
   boards: {
@@ -36,7 +40,14 @@ const config = {
       'board_tasks': []
     }
   },
-  boardOrder: ['to_do', 'in_progress', 'done']
+  boardOrder: ['to_do', 'in_progress', 'done'],
+  DEFAULT_TEST_USER: {
+    "userId": "9773bc40-0d4b-4bdb-8af8-c0e7df6f",
+    "username": "imfirstlol",
+    "email": null,
+    "firstName": null,
+    "lastName": null
+  }
 }
 
 export default config

@@ -1,6 +1,7 @@
 package com.baboya.tasks.utils;
 
 public class AppUtils {
+
   public static class TaskStatusOptions {
     ; // no instances
     public static String TO_DO = "to_do";

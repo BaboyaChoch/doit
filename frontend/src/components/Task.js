@@ -21,7 +21,7 @@ export default function Task({data, taskIndex}) {
 
   const classes = useStyles()
   return (
-    <Draggable key={data.task_id} draggableId={data.task_id} index={taskIndex}>
+    <Draggable key={data.taskId} draggableId={data.taskId} index={taskIndex}>
       {(provided, snapshot) => (
         <Card
           {...provided.draggableProps}
@@ -34,7 +34,7 @@ export default function Task({data, taskIndex}) {
             sx={{backgroundColor: snapshot.isDragging ? '#e5fce5' : '#FCF5E5'}}
           >
             <Typography sx={{fontSize: 15}}>
-              {data.task_content}
+              {data.taskContent}
             </Typography>
           </CardContent>
         </Card>

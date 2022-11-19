@@ -75,7 +75,7 @@ export default function Board({data, tasks}) {
                 </Box>
                 {tasks.map((task, index) => (
                   <Task
-                    key={task.task_id}
+                    key={task.taskId}
                     data={task}
                     taskIndex={index}
                   />))}
