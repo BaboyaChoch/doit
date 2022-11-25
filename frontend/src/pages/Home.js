@@ -7,7 +7,7 @@ import {Colors} from "../styles/colors";
 import Board from "../components/Board";
 import config from "../lib/config";
 import {DragDropContext} from "react-beautiful-dnd";
-
+import {getAllTasks, getTask, updateTask} from "../lib/TasksApi";
 
 const useStyles = makeStyles({
   root: {},
@@ -45,38 +45,55 @@ const Label = ({children}) => {
   </Typography>
 }
 
+
+const TASK_STATUS = {
+  IN_PROGRESS: 'in_progress',
+  TO_DO: 'to_do',
+  DONE: 'done'
+}
+
 export default function Home() {
 
   const classes = useStyles()
   const CONFIG = config;
 
+  const [userTasksList, setUserTasksList] = useState(null)
   const [inProgressTasks, setInProgressTasks] = useState([])
   const [toDoTasks, setToDoTasks] = useState([])
   const [doneTasks, setDoneTasks] = useState([])
 
   const getBoardTasksByBoardId = (boardId) => {
-    if (boardId === 'in_progress')
+    if (boardId === TASK_STATUS.IN_PROGRESS)
       return inProgressTasks
-    if (boardId === 'to_do')
+    if (boardId === TASK_STATUS.TO_DO)
       return toDoTasks
-    if (boardId === 'done')
+    if (boardId === TASK_STATUS.DONE)
       return doneTasks
   }
 
   const updateTaskStatus = (taskId, newStatus) => {
     console.log("GET", CONFIG.tasks[taskId])
+    getTask(taskId, CONFIG.DEFAULT_TEST_USER.userId).then( (response) => {
+      const oldTask = response.data
+      updateTask(oldTask, {
+        taskContent: oldTask.taskId,
+        taskStatus: newStatus,
+        userId: CONFIG.DEFAULT_TEST_USER.userId
+      })
+    })
     CONFIG.tasks[taskId].taskStatus = newStatus
     console.log("POST", CONFIG.tasks[taskId])
   }
+
   const updateTaskListState = (boardId, newOrder) => {
     const newData = newOrder.map(taskId => CONFIG.tasks[taskId])
     CONFIG.boards[boardId].board_tasks = newOrder
 
-    if (boardId === 'in_progress')
+    if (boardId === TASK_STATUS.IN_PROGRESS)
       setInProgressTasks(newData)
-    else if (boardId === 'to_do')
+    else if (boardId === TASK_STATUS.TO_DO)
       setToDoTasks(newData)
-    else if (boardId === 'done')
+    else if (boardId === TASK_STATUS.DONE)
       setDoneTasks(newData)
   }
 
@@ -123,6 +140,34 @@ export default function Home() {
     setToDoTasks(CONFIG.boards['to_do'].board_tasks.map(taskId => CONFIG.tasks[taskId]))
     setDoneTasks(CONFIG.boards['done'].board_tasks.map(taskId => CONFIG.tasks[taskId]))
   }, [])
+
+  // retrieve tasks and populate board
+  useEffect( () => {
+
+    const toDoTasks = []
+    const inProgressTasks = []
+    const doneTasks = []
+
+    getAllTasks(config.DEFAULT_TEST_USER.userId).then( response => {
+      console.log(`${CONFIG.DEFAULT_TEST_USER.userId} Tasks::::`, response.data)
+
+      for(const task of response.data) {
+        if (task.taskStatus === TASK_STATUS.TO_DO)
+          toDoTasks.push(task)
+        else if (task.taskStatus === TASK_STATUS.IN_PROGRESS)
+          inProgressTasks.push(task)
+        else if (task.taskStatus === TASK_STATUS.DONE)
+          doneTasks.push(task)
+      }
+      console.log("TO_DO ::", toDoTasks);
+      console.log("IN_PROGRESS ::", inProgressTasks)
+      setToDoTasks(toDoTasks)
+      setInProgressTasks(inProgressTasks)
+      setDoneTasks(doneTasks)
+    });
+
+  },[])
+
 
   return (
     <Box>
