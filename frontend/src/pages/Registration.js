@@ -1,47 +1,49 @@
-import * as React from 'react';
+import * as React from "react";
 import { useEffect, useState } from "react";
 import { Grid, useTheme, Box, Typography, Paper } from "@mui/material";
 import { makeStyles, styled } from "@mui/styles";
-import { Colors } from "../styles/colors"
+import { COLORS } from "../styles/colors";
 const useStyles = makeStyles({
-  root: {
-  },
+  root: {},
   content: {
-    height: '100vh'
+    height: "100vh",
   },
   main: {
-    backgroundColor: Colors.WHITE,
-  }
-})
+    backgroundColor: COLORS.WHITE,
+  },
+});
 
-const Label = ({children}) => {
-  return <Typography style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'white',
-    width: '100%'
-  }}>
-    {children}
-  </Typography>
-}
+const Label = ({ children }) => {
+  return (
+    <Typography
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "white",
+        width: "100%",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+};
 
 export default function Registration() {
-
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Box>
-      <Grid container direction='column'>
-        <Grid item xs={2} sx={{backgroundColor: 'grey'}}/>
+      <Grid container direction="column">
+        <Grid item xs={2} sx={{ backgroundColor: "grey" }} />
         <Grid item container className={classes.content}>
-          <Grid item xs={2} sx={{backgroundColor: 'black'}}/>
+          <Grid item xs={2} sx={{ backgroundColor: "black" }} />
           <Grid item container xs={8}>
             <Label>MAIN</Label>
           </Grid>
-          <Grid item xs={2} sx={{backgroundColor: 'black'}}/>
+          <Grid item xs={2} sx={{ backgroundColor: "black" }} />
         </Grid>
-        <Grid item xs={2} sx={{backgroundColor: 'grey'}}/>
+        <Grid item xs={2} sx={{ backgroundColor: "grey" }} />
       </Grid>
     </Box>
   );

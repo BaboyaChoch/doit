@@ -40,11 +40,6 @@ public class TaskService {
   public GenericApiResponse updateTask(String id, Task newTask) {
 
     Optional<Task> currentTask = (Optional<Task>) getTask(id, newTask.getUserId()).getData();
-    System.out.println("ATTEMPTING TO UPDATE: " + currentTask.get()
-        + " NEW_TASK CONTENT IS: " + newTask.getTaskContent()
-        + " NEW_TASK STATUS IS: " + newTask.getTaskStatus()
-        + " NEW_TASK USERID IS: " + newTask.getUserId()
-    );
 
     if (currentTask.isPresent()) {
       Task updatedTask = currentTask.get();
@@ -56,7 +51,7 @@ public class TaskService {
         updatedTask.setTaskLastUpdatedOn(LocalDateTime.now());
         taskRepository.save(updatedTask);
 
-        return new GenericApiResponse(updatedTask);
+        return new GenericApiResponse("SUCCESS");
       }
     }
     return new GenericApiResponse(null);
@@ -65,7 +60,7 @@ public class TaskService {
   public GenericApiResponse addTask(Task task) {
     Task newTask = new Task(task.getTaskContent(), task.getTaskStatus(), task.getUserId());
     taskRepository.save(newTask);
-    return new GenericApiResponse(newTask.getTaskId());
+    return new GenericApiResponse("SUCCESS");
   }
 
   public GenericApiResponse deleteTask(String taskId, String userId) {

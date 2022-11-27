@@ -1,17 +1,17 @@
 import { createTheme } from "@mui/material";
-import { Colors } from "./colors"
-const font = "Roboto, Arial, sans-serif";
+import { COLORS } from "./colors";
+const font = "Raleway,Roboto, Arial, sans-serif";
 
 export const theme = createTheme({
-    palette: {
-        secondary: {
-            main: Colors.WHITE
-        },
-        primary: {
-            main: Colors.BLUE,
-        },
+  palette: {
+    secondary: {
+      main: COLORS.WHITE,
     },
-    typography: {
-        fontFamily: font,
+    primary: {
+      main: COLORS.BLUE,
     },
+  },
+  typography: {
+    fontFamily: font,
+  },
 });
