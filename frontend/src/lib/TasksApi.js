@@ -1,5 +1,7 @@
-async function getAllTasks(userId) {
-  return fetch(`http://localhost:5000/tasks/getAllTasks/userId=${userId}`, {
+const API_ENDPOINT_URL =
+  "http://doitwebappapi-env.eba-pmqdmhyu.us-east-2.elasticbeanstalk.com";
+function getAllTasks(userId) {
+  return fetch(`${API_ENDPOINT_URL}/tasks/getAllTasks/userId=${userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -13,7 +15,7 @@ async function getAllTasks(userId) {
 }
 
 function updateTask(taskId, newTaskData) {
-  return fetch(`http://localhost:5000/tasks/updateTask/taskId=${taskId}`, {
+  return fetch(`${API_ENDPOINT_URL}/tasks/updateTask/taskId=${taskId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -29,7 +31,7 @@ function updateTask(taskId, newTaskData) {
 
 async function getTask(taskId, userId) {
   return fetch(
-    `http://localhost:5000/tasks/getTask/userId=${userId}/taskId=${taskId}`,
+    `${API_ENDPOINT_URL}/tasks/getTask/userId=${userId}/taskId=${taskId}`,
     {
       method: "GET",
       headers: {
@@ -45,7 +47,7 @@ async function getTask(taskId, userId) {
 }
 
 function addTask(task) {
-  return fetch(`http://localhost:5000/tasks/addTask`, {
+  return fetch(`${API_ENDPOINT_URL}/tasks/addTask`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -61,7 +63,7 @@ function addTask(task) {
 
 function deleteTask(taskId, userId) {
   return fetch(
-    `http://localhost:5000/tasks/deleteTask/userId=${userId}/taskId=${taskId}`,
+    `${API_ENDPOINT_URL}/tasks/deleteTask/userId=${userId}/taskId=${taskId}`,
     {
       method: "DELETE",
       headers: {
@@ -77,7 +79,7 @@ function deleteTask(taskId, userId) {
 }
 
 function getUser(userId) {
-  return fetch(`http://localhost:5000/users/getUser/userId=${userId}`, {
+  return fetch(`${API_ENDPOINT_URL}/users/getUser/userId=${userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -92,7 +94,7 @@ function getUser(userId) {
 }
 
 function updateUser(userId, newUserInfo) {
-  return fetch(`http://localhost:5000/users/updateUser/userId=${userId}`, {
+  return fetch(`${API_ENDPOINT_URL}/users/updateUser/userId=${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -106,12 +108,14 @@ function updateUser(userId, newUserInfo) {
     });
 }
 
-module.exports = {
-  getAllTasks,
-  updateTask,
-  getTask,
-  addTask,
-  deleteTask,
-  getUser,
-  updateUser,
+const TaskAPI = {
+  getAllTasks: (userId) => getAllTasks(userId),
+  updateTask: (taskId, newTaskData) => updateTask(taskId, newTaskData),
+  getTask: (taskId, userId) => getTask(taskId, userId),
+  addTask: (task) => addTask(task),
+  deleteTask: (taskId, userId) => deleteTask(taskId, userId),
+  getUser: (userId) => getUser(userId),
+  updateUser: (userId, newUserInfo) => updateUser(userId, newUserInfo),
 };
+
+export default TaskAPI;

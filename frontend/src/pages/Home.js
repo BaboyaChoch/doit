@@ -20,16 +20,10 @@ import { COLORS } from "../styles/colors";
 import Board from "../components/Board";
 import config from "../lib/config";
 import { DragDropContext } from "react-beautiful-dnd";
-import {
-  addTask,
-  getAllTasks,
-  updateTask,
-  getUser,
-  updateUser,
-} from "../lib/TasksApi";
 import Avatar from "@mui/material/Avatar";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
+import TaskAPI from "../lib/TasksApi";
 
 const useStyles = makeStyles({
   root: {},
@@ -85,7 +79,7 @@ export default function Home() {
   };
 
   const updateTaskStatus = (oldTask, newStatus) => {
-    updateTask(oldTask.taskId, {
+    TaskAPI.updateTask(oldTask.taskId, {
       taskContent: oldTask.taskContent,
       taskStatus: newStatus,
       userId: CONFIG.DEFAULT_TEST_USER.userId,
@@ -155,7 +149,7 @@ export default function Home() {
   };
 
   const handleAddTask = (content, status) => {
-    addTask({
+    TaskAPI.addTask({
       taskContent: content,
       taskStatus: status,
       userId: CONFIG.DEFAULT_TEST_USER.userId,
@@ -177,7 +171,7 @@ export default function Home() {
   };
 
   const handleUpdateUserInfo = () => {
-    updateUser(CONFIG.DEFAULT_TEST_USER.userId, {
+    TaskAPI.updateUser(CONFIG.DEFAULT_TEST_USER.userId, {
       username:
         updatedUserInfo.username.length >= 1
           ? updatedUserInfo.username
@@ -205,7 +199,7 @@ export default function Home() {
     const inProgressTasks = [];
     const doneTasks = [];
 
-    getAllTasks(config.DEFAULT_TEST_USER.userId).then((response) => {
+    TaskAPI.getAllTasks(config.DEFAULT_TEST_USER.userId).then((response) => {
       for (const task of response.data) {
         if (task.taskStatus === TASK_STATUS.TO_DO) toDoTasks.push(task);
         else if (task.taskStatus === TASK_STATUS.IN_PROGRESS)
@@ -221,7 +215,7 @@ export default function Home() {
 
   // retriever user info
   useEffect(() => {
-    getUser(CONFIG.DEFAULT_TEST_USER.userId).then((userData) => {
+    TaskAPI.getUser(CONFIG.DEFAULT_TEST_USER.userId).then((userData) => {
       setUserInfo(userData);
     });
   }, []);

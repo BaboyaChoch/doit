@@ -3,36 +3,33 @@ import { makeStyles } from "@mui/styles";
 import {
   Box,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Stack,
   TextareaAutosize,
   Typography,
 } from "@mui/material";
 import * as React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
-import DialogContext from "@mui/material/Dialog/DialogContext";
-import { deleteTask, updateTask } from "../lib/TasksApi";
 import config from "../lib/config";
 import { COLORS } from "../styles/colors";
+import TaskAPI from "../lib/TasksApi";
 
 const useStyles = makeStyles({
   root: {
     margin: 8,
-    border: "1px solid lightgrey",
+    border: "1px solid #2E2E37",
   },
-  content: {},
+  content: {
+    height: "fit-content",
+  },
 });
 
 export default function Task({ data, taskIndex }) {
@@ -72,9 +69,24 @@ export default function Task({ data, taskIndex }) {
     );
   }
 
+  const BOARD_CONFIG = {
+    to_do: {
+      color: "#fce5e5",
+      titleColor: "#f86565",
+    },
+    in_progress: {
+      color: "#fcfae5",
+      titleColor: "#f8de65",
+    },
+    done: {
+      color: "#ebfce5",
+      titleColor: "#87f867",
+    },
+  };
+
   const handleDialogConfirm = () => {
     if (openDeleteConfirmDialog) {
-      deleteTask(data.taskId, data.userId).then((response) => {
+      TaskAPI.deleteTask(data.taskId, data.userId).then((response) => {
         if (response) {
           window.location.reload(true);
         }
@@ -84,7 +96,7 @@ export default function Task({ data, taskIndex }) {
 
     if (openEditTaskDialog) {
       if (newEditedTaskContent && newEditedTaskContent.length >= 1) {
-        updateTask(data.taskId, {
+        TaskAPI.updateTask(data.taskId, {
           taskContent: newEditedTaskContent,
           taskStatus: data.taskStatus,
           userId: config.DEFAULT_TEST_USER.userId,
@@ -135,9 +147,22 @@ export default function Task({ data, taskIndex }) {
                   wordBreak: "break-word",
                   color: TEXT_COLOR,
                   fontWeight: 500,
+                  mb: 2,
                 }}
               >
                 {data.taskContent}
+              </Typography>
+              <Typography
+                sx={{
+                  alignSelf: "flex-end",
+                  justifySelf: "end",
+                  mb: -3,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: BOARD_CONFIG[data.taskStatus].titleColor,
+                }}
+              >
+                {data.taskLastUpdatedOn}
               </Typography>
             </CardContent>
           </Card>
